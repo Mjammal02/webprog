@@ -1,7 +1,7 @@
 'use strict';
 /**
  * Reflection question 1
- * your answer goes here
+ * 
  */
 
 import inventory from './inventory.mjs';

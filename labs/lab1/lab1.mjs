@@ -19,14 +19,46 @@ console.log('\n--- for ... in ---------------------------------------')
 for (const name in inventory) {
   console.log(name);
 }
+
 /**
  * Reflection question 2
+ * 
+ * -Enumerable properties are properties of an object that kan be listed in loops like (for .. in). 
+ * All user-defined object properties are enumerabl
+ * 
+ * -Own properties belong directly to the object, not properties that the object inherit from its prototype
+ * 
+ * Object.keys() only returns the objects own enumerable properties. It does not include inherited properties
+ * The forEach() loops over the array of keys provided by Object.keys(). Since Object.keys() only returns the object's own properties, 
+ * forEach() will not iterate over properties from the object's prototype or non-enumerable properties.
+ * 
+ * for...in iterates over all enumerable properties, including the object's own properties and inherited enumerable properties from the prototype chain.
+ * 
+ * ANSWERE: They will give different outputs if the object has inherited enumerable properties
+ * Example:
+ * 
+ *  const inventory = { apples: 10, bananas: 5 };
+    Object.prototype.oranges = 20;  // Inherited property
+
+    const names = Object.keys(inventory);
+    names.forEach(name => console.log(name)); // Outputs: apples, bananas
+
+    for (const name in inventory) {
+      console.log(name); // Outputs: apples, bananas, oranges (inherited)
+    }
+ * 
  */
 
 console.log('\n--- Assignment 1 ---------------------------------------')
 
 function makeOptions(inv, prop) {
-  return 'TODO';
+  return Object.entries(inv)
+  .filter(([key, value])=> value[prop])
+  .map(([key, value]) => `<option value="${key} key="${key}">{key}, ${value.price} kr</option>`);
+
+  
+
+  
 }
 
 console.log(makeOptions(inventory, 'foundation'));
@@ -60,6 +92,31 @@ console.log('\n--- Assignment 3 ---------------------------------------')
 
 /*
 console.log('\n--- reflection question 3 ---------------------------------------')
+
+*In JavaScript, classes are essentially syntactic sugar over constructor functions. 
+When you create a class, you're really creating a function behind the scenes, 
+and JavaScript sets up the prototype-based inheritance system to manage shared properties and methods.
+
+-Classes define objects and their behaviors (methods) that are shared among instances.
+-Inherited properties are represented via the prototype chain. Each object has an internal link to its prototype ([[Prototype]]), 
+which is an object. When you access a property on an object, JavaScript checks the object itself first, and if the property isn't found,
+it moves up the chain to the object's prototype, continuing up the chain until it reaches Object.prototype or null.
+
+*Prototype Chain: This is the chain of objects that JavaScript follows when looking for properties. Every object has a prototype (via [[Prototype]]), 
+and when a property is not found on the object itself, JavaScript looks at the object's prototype, 
+then its prototype’s prototype, and so on, until it reaches Object.prototype.
+
+*
+-Functions have a prototype property. This includes constructor functions and ES6 classes.
+Normal objects (instances of classes or functions) do not have a prototype property, 
+but they have a [[Prototype]] (an internal reference to the constructor's prototype).
+
+-Prototype Property: Only functions (and thus classes) have a prototype property. 
+This property is an object that stores shared methods and properties for instances created from that function or class. 
+Instance objects do not have a prototype property, but they do have an internal reference ([[Prototype]]) to their constructor's prototype object.
+
+*
+To access the next object in the prototype chain, you use the method Object.getPrototypeOf(obj).
 console.log('typeof Salad: ' + typeof Salad);
 console.log('typeof Salad.prototype: ' + typeof Salad.prototype);
 console.log('typeof Salad.prototype.prototype: ' + typeof Salad.prototype.prototype);
@@ -108,10 +165,16 @@ console.log('Min gourmetsallad har uuid: ' + myGourmetSalad.uuid);
 
 /**
  * Reflection question 4
+ * Static properties are stored directly on the constructor function or class itself, not on the instances or their prototypes.
+ * 
  */
 /**
  * Reflection question 5
+ * Yes, you can make the id property read-only using Object.defineProperty() or the getter approach.
+ *  writable: false, // Gör id read-only
  */
 /**
  * Reflection question 6
+ * Yes, starting with ES2020, JavaScript introduced private properties using a # symbol before the property name. 
+ * These properties are only accessible within the class definition and are not accessible from outside.
  */

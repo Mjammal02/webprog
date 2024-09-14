@@ -54,7 +54,7 @@ console.log('\n--- Assignment 1 ---------------------------------------')
 function makeOptions(inv, prop) {
   return Object.entries(inv)
   .filter(([key, value])=> value[prop])
-  .map(([key, value]) => `<option value="${key} key="${key}">{key}, ${value.price} kr</option>`);
+  .map(([key, value]) => `<option value="${key} key="${key}">${key}, ${value.price} kr</option>`);
 
   
 
@@ -64,7 +64,7 @@ function makeOptions(inv, prop) {
 console.log(makeOptions(inventory, 'foundation'));
 
 console.log('\n--- Assignment 2 ---------------------------------------')
-class Salad {
+class Salad { 
   constructor() { }
   add(name, properties) { }
   remove(name) { }

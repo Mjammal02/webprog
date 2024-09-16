@@ -132,13 +132,13 @@ class Salad {
         return parsed.map(item => {
           const newSalad = new Salad();
           newSalad.selectedIngredients = { ...item.selectedIngredients };
-          newSalad.uuid = item.uuid;
+         // newSalad.uuid = item.uuid;
           return newSalad;
         });
     }else{
       const newSalad = new Salad(parsed);
       newSalad.selectedIngredients={ ...parsed.selectedIngredients};
-      newSalad.uuid = item.uuid;
+      //newSalad.uuid = item.uuid;
       return newSalad;
 
     }
@@ -181,7 +181,7 @@ console.log('En ceasarsallad har ' + myCaesarSalad.count('extra') + ' tillbehör
 
 console.log('\n--- reflection question 3 ---------------------------------------')
 /*
-1*In JavaScript, classes are essentially syntactic sugar over constructor functions. 
+1*In , classes are essentially syntactic sugar over constructor functions. 
 When you create a class, you're really creating a function behind the scenes, 
 and JavaScript sets up the prototype-based inheritance system to manage shared properties and methods.
 
@@ -207,30 +207,6 @@ Instance objects do not have a prototype property, but they do have an internal 
 To access the next object in the prototype chain, you use the method Object.getPrototypeOf(obj).
 */
 
-*In JavaScript, classes are essentially syntactic sugar over constructor functions. 
-When you create a class, you're really creating a function behind the scenes, 
-and JavaScript sets up the prototype-based inheritance system to manage shared properties and methods.
-
--Classes define objects and their behaviors (methods) that are shared among instances.
--Inherited properties are represented via the prototype chain. Each object has an internal link to its prototype ([[Prototype]]), 
-which is an object. When you access a property on an object, JavaScript checks the object itself first, and if the property isn't found,
-it moves up the chain to the object's prototype, continuing up the chain until it reaches Object.prototype or null.
-
-*Prototype Chain: This is the chain of objects that JavaScript follows when looking for properties. Every object has a prototype (via [[Prototype]]), 
-and when a property is not found on the object itself, JavaScript looks at the object's prototype, 
-then its prototype’s prototype, and so on, until it reaches Object.prototype.
-
-*
--Functions have a prototype property. This includes constructor functions and ES6 classes.
-Normal objects (instances of classes or functions) do not have a prototype property, 
-but they have a [[Prototype]] (an internal reference to the constructor's prototype).
-
--Prototype Property: Only functions (and thus classes) have a prototype property. 
-This property is an object that stores shared methods and properties for instances created from that function or class. 
-Instance objects do not have a prototype property, but they do have an internal reference ([[Prototype]]) to their constructor's prototype object.
-
-*
-To access the next object in the prototype chain, you use the method Object.getPrototypeOf(obj).
 console.log('typeof Salad: ' + typeof Salad);
 console.log('typeof Salad.prototype: ' + typeof Salad.prototype);
 console.log('typeof Salad.prototype.prototype: ' + typeof Salad.prototype.prototype);

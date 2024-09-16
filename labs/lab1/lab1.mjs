@@ -55,30 +55,6 @@ for (const name in inventory) {
     }
  * 
  * 
- * -Enumerable properties are properties of an object that kan be listed in loops like (for .. in). 
- * All user-defined object properties are enumerabl
- * 
- * -Own properties belong directly to the object, not properties that the object inherit from its prototype
- * 
- * Object.keys() only returns the objects own enumerable properties. It does not include inherited properties
- * The forEach() loops over the array of keys provided by Object.keys(). Since Object.keys() only returns the object's own properties, 
- * forEach() will not iterate over properties from the object's prototype or non-enumerable properties.
- * 
- * for...in iterates over all enumerable properties, including the object's own properties and inherited enumerable properties from the prototype chain.
- * 
- * ANSWERE: They will give different outputs if the object has inherited enumerable properties
- * Example:
- * 
- *  const inventory = { apples: 10, bananas: 5 };
-    Object.prototype.oranges = 20;  // Inherited property
-
-    const names = Object.keys(inventory);
-    names.forEach(name => console.log(name)); // Outputs: apples, bananas
-
-    for (const name in inventory) {
-      console.log(name); // Outputs: apples, bananas, oranges (inherited)
-    }
- * 
  */
 
 console.log('\n--- Assignment 1 ---------------------------------------')
@@ -97,17 +73,17 @@ class Salad {
 
   constructor(existingSalad) {
     
-
+    this.uuid=uuidv4();
+    this.id = 'salad_' + Salad.#instantCounter++;
     if(existingSalad instanceof Salad)
       {
-        this.selectedIngredients=JSON.parse(JSON.stringify(existingSalad.selectedIngredients));
-        //this.ingridientList = {...salad.ingridientList}
+        //this.selectedIngredients=JSON.parse(JSON.stringify(existingSalad.selectedIngredients));
+        this.ingridientList = {...existingSalad.ingridientList}
       } 
       else{
         this.selectedIngredients={};
       }
-      this.uuid=uuidv4();
-      this.id = 'salad_' + Salad.#instantCounter++;
+      
   }
   add(name, properties) { 
     this.selectedIngredients[name]=properties;
@@ -132,13 +108,13 @@ class Salad {
         return parsed.map(item => {
           const newSalad = new Salad();
           newSalad.selectedIngredients = { ...item.selectedIngredients };
-         // newSalad.uuid = item.uuid;
+          newSalad.uuid = parsed.uuid;
           return newSalad;
         });
     }else{
       const newSalad = new Salad(parsed);
       newSalad.selectedIngredients={ ...parsed.selectedIngredients};
-      //newSalad.uuid = item.uuid;
+      newSalad.uuid = parsed.uuid;
       return newSalad;
 
     }

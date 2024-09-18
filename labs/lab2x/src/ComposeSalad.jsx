@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Importera Bootstrap
+
 
 function ComposeSalad(props) {
 
@@ -12,8 +14,16 @@ function ComposeSalad(props) {
   const foundationList = Object.keys(props.inventory).filter(name => props.inventory[name].foundation);
   const proteinList = Object.keys(props.inventory).filter(name => props.inventory[name].protein);
   const dressingList = Object.keys(props.inventory).filter(name => props.inventory[name].dressing);
-  const extrasList  = Object.keys(props.inventory).filter(name => props.inventory[name].extras);
+  const extrasList  = Object.keys(props.inventory).filter(name => props.inventory[name].extra);
 
+   // Handle extra checkbox changes
+   const handleExtraChange = (e) => {
+    const { name, checked } = e.target;
+    setExtras(prevExtras => ({
+      ...prevExtras,
+      [name]: checked
+    }));
+  };
 
   return (
     <div className="continer col-12">
@@ -48,9 +58,30 @@ function ComposeSalad(props) {
           </select>
         </fieldset>
 
-          {/* Extras Checkboxes */}
-        <fieldset className="col-md-12">
-          <label htmlFor="protein" className="form-label">Välj Tillbehör</label>
+        {/* Extras Checkboxes */}
+        <fieldset className="col-md-12 mb-3">
+          <label className="form-label">Välj Tillbehör</label>
+          <div className="row">
+            {extrasList.length > 0 ? (
+              extrasList.map((extra) => (
+                <div key={extra} className="col-md-4 form-check">
+                  <input
+                    type="checkbox"
+                    id={extra}
+                    name={extra}
+                    checked={extras[extra] || false}
+                    onChange={handleExtraChange}
+                    className="form-check-input"
+                  />
+                  <label htmlFor={extra} className="form-check-label">
+                    {extra}
+                  </label>
+                </div>
+              ))
+            ) : (
+              <p>Inga tillbehör tillgängliga.</p>
+            )}
+          </div>
         </fieldset>
 
           {/* Dressing Select */}

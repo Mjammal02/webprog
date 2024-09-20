@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Importera Bootstrap
+import FoundationSelector from './FoundationSelector';
+import ProteinSelector from './ProteinSelector';
+import DressingSelector from './DressingSelector';
 
 
 function ComposeSalad(props) {
@@ -29,38 +32,24 @@ function ComposeSalad(props) {
     <div className="continer col-12">
       <div className="row h-200 p-5 bg-light border rounded-3">
         <h2>Välj innehållet i din sallad</h2>
+        
+        {/* Foundation Component */}
+        <FoundationSelector
+          foundation={foundation}
+          setFoundation={setFoundation}
+          foundationList={foundationList}
+        />
 
-         {/* Foundation Select */}
-        <fieldset className="col-md-12">
-          <label htmlFor="foundation" className="form-label">Välj bas</label>
-          <select //Dropdown lista
-            value={foundation} // Här binder vi värdet till 'foundation' från state
-            onChange={(e)=> setFoundation(e.target.value)}   //EventHandler Uppdaterar state när valet ändras
-            className="form-select" id="foundation">
-            {foundationList.map((foundationOption)=>(// Map för att loopa igenom
-            <option key={foundationOption} value={foundationOption}>
-              {foundationOption}
-              </option>))}
-          </select>
-        </fieldset>
-
-          {/* Protein Select */}
-        <fieldset className="col-md-12">
-          <label htmlFor="protein" className="form-label">Välj Protein</label>
-          <select //Dropdown lista
-            value={protein} // Här binder vi värdet till 'foundation' från state
-            onChange={(e)=> setProtein(e.target.value)}   //EventHandler Uppdaterar state när valet ändras
-            className="form-select" id="foundation">
-            {proteinList.map((proteinOption)=>(// Map för att loopa igenom
-            <option key={proteinOption} value={proteinOption}>
-              {proteinOption}
-              </option>))}
-          </select>
-        </fieldset>
+        {/* Protein Select */}
+       <ProteinSelector
+          protein={protein}
+          setProtein={setProtein}
+          proteinList={proteinList}
+        />
 
         {/* Extras Checkboxes */}
         <fieldset className="col-md-12 mb-3">
-          <label className="form-label">Välj Tillbehör</label>
+          <label className="extras">Välj Tillbehör</label>
           <div className="row">
             {extrasList.length > 0 ? (
               extrasList.map((extra) => (
@@ -84,19 +73,12 @@ function ComposeSalad(props) {
           </div>
         </fieldset>
 
-          {/* Dressing Select */}
-        <fieldset className="col-md-12">
-          <label htmlFor="dressing" className="form-label">Välj Dreessing</label>
-          <select //Dropdown lista
-            value={dressing} // Här binder vi värdet till 'foundation' från state
-            onChange={(e)=> setDressing(e.target.value)}   //EventHandler Uppdaterar state när valet ändras
-            className="form-select" id="dressing">
-            {dressingList.map((dressingOption)=>(// Map för att loopa igenom
-            <option key={dressingOption} value={dressingOption}>
-              {dressingOption}
-              </option>))}
-          </select>
-        </fieldset>
+        {/* Dressing Component */}
+        <DressingSelector
+          dressing={dressing}
+          setDressing={setDressing}
+          dressingList={dressingList}
+        />
 
       </div>
     </div>

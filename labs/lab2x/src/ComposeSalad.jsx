@@ -45,10 +45,10 @@ function ComposeSalad(props) {
     }
 
     // Skapa en ny Salad-instans
-       const salad = new Salad()
-       .add(foundation, props.inventory[foundation])
-       .add(protein, props.inventory[protein])
-       .add(dressing, props.inventory[dressing]);
+       const salad = new Salad();
+       salad.add(foundation, props.inventory[foundation]);
+       salad.add(protein, props.inventory[protein]);
+       salad.add(dressing, props.inventory[dressing]);
  
      //Lägg till tillbehör
       Object.keys(extras).forEach(extra => {
@@ -61,15 +61,15 @@ function ComposeSalad(props) {
     // Here you would call a function passed via props to update the shopping basket state in App
     props.addSaladToOrder(salad);
 
-      // Clear the form after submission
-  setFoundation(foundationList[0] || '');
-  setProtein(proteinList[0] || '');
-  setDressing(dressingList[0] || '');
-  setExtras({});
+    // Clear the form after submission
+    setFoundation(foundationList[0] || '');
+    setProtein(proteinList[0] || '');
+    setDressing(dressingList[0] || '');
+    setExtras({});
   }
 
   return (
-    <div className="continer col-12">
+    <form onSubmit={handleSubmit} className="container col-12">
       <div className="row h-200 p-5 bg-light border rounded-3">
         <h2>Välj innehållet i din sallad</h2>
         
@@ -122,7 +122,7 @@ function ComposeSalad(props) {
         <button className="btn btn-primary" onClick={handleSubmit} >Lägg till sallad</button>
 
       </div>
-    </div>
+    </form>
   );
 }
 export default ComposeSalad;

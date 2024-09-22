@@ -58,4 +58,4 @@ class Salad {
   }
 }
 
-export default Salad;
+export default Salad

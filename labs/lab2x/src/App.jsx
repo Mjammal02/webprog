@@ -19,6 +19,7 @@ function App() {
         <span className="fs-4">Min egen salladsbar</span>
       </header>
       <ComposeSalad inventory={inventory} addSaladToOrder={addSaladToOrder}></ComposeSalad>
+          {/* Display Ordered Salads */}
       <footer className="pt-3 mt-4 text-muted border-top">
         EDAF90 - webprogrammering
       </footer>

@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import inventory from './inventory.mjs';
 import ComposeSalad from './ComposeSalad';
 
+
 function App() {
   let extras = Object.keys(inventory).filter(name => inventory[name].extra);
 
@@ -24,5 +25,17 @@ function App() {
     </div>
   );
 }
+
+/* <div className="mt-5">
+<h3>Beställda sallader</h3>
+<ul>
+  {salads.map((salad, index) => (
+    <li key={index}>
+      Bas: {salad.foundation}, Protein: {salad.protein}, Tillbehör: {salad.extras.join(', ')}, Dressing: {salad.dressing}
+    </li>
+  ))}
+</ul>
+</div>
+ */
 
 export default App;

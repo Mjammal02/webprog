@@ -65,7 +65,10 @@ function ComposeSalad(props) {
     setFoundation(foundationList[0] || '');
     setProtein(proteinList[0] || '');
     setDressing(dressingList[0] || '');
-    setExtras({});
+    setExtras({
+      Bacon: false, 
+      Fetaost: false
+  });
   }
 
   return (

@@ -13,7 +13,7 @@ class Salad {
     if(existingSalad instanceof Salad)
       {
         //this.selectedIngredients=JSON.parse(JSON.stringify(existingSalad.selectedIngredients));
-        this.ingridientList = {...existingSalad.ingridientList}
+        this.selectedIngredients = {...existingSalad.ingridientList}
       } 
       else{
         this.selectedIngredients={};
@@ -54,8 +54,17 @@ class Salad {
 
     }
   
-  
   }
+}
+
+Salad.prototype.getPrice=function(){
+
+  return Object.values(this.selectedIngredients)
+        .reduce((total,ingredient)=> total + (ingredient.price || 0), 0);
+}
+
+Salad.prototype.count = function(property){
+  return  Object.values(this.selectedIngredients).filter(hi => hi[property] ===true).length;
 }
 
 export default Salad

@@ -2,6 +2,8 @@ import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
 import inventory from './inventory.mjs';
 import ComposeSalad from './ComposeSalad';
+import ViewOrder from './ViewOrder'; 
+
 
 
 function App() {
@@ -18,8 +20,8 @@ function App() {
       <header className="pb-3 mb-4 border-bottom">
         <span className="fs-4">Min egen salladsbar</span>
       </header>
-      <ComposeSalad inventory={inventory} addSaladToOrder={addSaladToOrder}></ComposeSalad>
-          {/* Display Ordered Salads */}
+      <ViewOrder shoppingCart={salads} />
+      <ComposeSalad inventory={inventory} addSaladToOrder={addSaladToOrder}></ComposeSalad>      
       <footer className="pt-3 mt-4 text-muted border-top">
         EDAF90 - webprogrammering
       </footer>

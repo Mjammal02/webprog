@@ -18,7 +18,7 @@ function App() {
   return (
     <div className="container py-4">
       <header className="pb-3 mb-4 border-bottom">
-        <span className="fs-4">Min egen salladsbar</span>
+        <span className="fs-4">Mini egen salladsbar</span>
       </header>
       <ViewOrder shoppingCart={salads} />
       <ComposeSalad inventory={inventory} addSaladToOrder={addSaladToOrder}></ComposeSalad>      

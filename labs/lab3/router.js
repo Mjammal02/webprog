@@ -1,5 +1,5 @@
 import { createBrowserRouter, useRouteError } from "react-router-dom";
-import App from './App';
+import App from './src/App';
 
 const router = createBrowserRouter([
   {

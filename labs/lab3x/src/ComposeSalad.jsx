@@ -19,13 +19,17 @@ function ComposeSalad(props) {
 
 
   // State for each salad component
-  const [foundation, setFoundation] = useState(foundationList[0] || '');
-  const [protein, setProtein] = useState(proteinList[0] || '');
+  const [foundation, setFoundation] = useState('');
+  const [protein, setProtein] = useState('');
   const [extras, setExtras] = useState({
     Bacon: true, 
     Fetaost: true
   });
-  const [dressing, setDressing] = useState(dressingList[0] || '');
+  const [dressing, setDressing] = useState('');
+  const [touched, setTouched] = useState(false); 
+  const [extrasValid, setExtrasValid] = useState(true); 
+
+
 
    // Handle extra checkbox changes
    const handleExtraChange = (e) => {
@@ -36,43 +40,60 @@ function ComposeSalad(props) {
     }));
   };
 
-  const handleSubmit = () =>{
-    event.preventDefault(); // Prevent default form submission
+  const [errorMessage, setErrorMessage] = useState('');
 
-    if (!foundation || !protein || Object.values(extras).filter(Boolean).length < 2 || !dressing) {
-      alert("Du måste välja en bas, ett protein, minst två tillbehör och en dressing!");
-      return;
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Förhindra standard formulärsubmission
+    setTouched(true); // Aktivera validering
+
+       // Kolla om minst två tillbehör är valda
+       if (Object.values(extras).filter(Boolean).length < 2) {
+        setErrorMessage("Du måste välja minst två tillbehör!");
+        setExtrasValid(false);
+        return;
+      } else {
+        setExtrasValid(true); // Om giltigt, sätt flaggan till true
+        setErrorMessage(''); // Återställ felmeddelande om giltiga tillbehör
+      }
+
+    const salad = new Salad();
+    const foundationItem = props.inventory[foundation];
+    const proteinItem = props.inventory[protein];
+    const dressingItem = props.inventory[dressing];
+
+    if (!foundationItem || !proteinItem || !dressingItem) {
+        setErrorMessage("Ett eller flera valda ingredienser är ogiltiga.");
+        return;
     }
 
-    // Skapa en ny Salad-instans
-       const salad = new Salad();
-       salad.add(foundation, props.inventory[foundation]);
-       salad.add(protein, props.inventory[protein]);
-       salad.add(dressing, props.inventory[dressing]);
- 
-     //Lägg till tillbehör
-      Object.keys(extras).forEach(extra => {
-        if (extras[extra]) {
-          salad.add(extra, props.inventory[extra]);
+    salad.add(foundation, foundationItem);
+    salad.add(protein, proteinItem);
+    salad.add(dressing, dressingItem);
+
+    Object.keys(extras).forEach(extra => {
+        if (extras[extra] && props.inventory[extra]) {
+            salad.add(extra, props.inventory[extra]);
         }
-      });
+    });
 
     console.log("Sallad skapad:", salad);
-    // Here you would call a function passed via props to update the shopping basket state in App
     props.addSaladToOrder(salad);
 
-    // Clear the form after submission
-    setFoundation(foundationList[0] || '');
-    setProtein(proteinList[0] || '');
-    setDressing(dressingList[0] || '');
+    // Återställ formuläret
+    setFoundation('');
+    setProtein('');
+    setDressing('');
     setExtras({
-      Bacon: false, 
-      Fetaost: false
-  });
-  }
+        Bacon: false, 
+        Fetaost: false
+    });
+    setTouched(false);
+   // setErrorMessage('');
+}
+
 
   return (
-    <form onSubmit={handleSubmit} className="container col-12">
+    <form onSubmit={handleSubmit} noValidate className={`container col-12 ${touched ? 'was-validated' : ''}`}>
       <div className="row h-200 p-5 bg-light border rounded-3">
         <h2>Välj innehållet i din sallad</h2>
         
@@ -82,6 +103,7 @@ function ComposeSalad(props) {
           setFoundation={setFoundation}
           foundationList={foundationList}
         />
+        <div className="invalid-feedback">Du måste välja en bas!</div>
 
         {/* Protein Select */}
        <ProteinSelector
@@ -89,6 +111,7 @@ function ComposeSalad(props) {
           setProtein={setProtein}
           proteinList={proteinList}
         />
+        <div className="invalid-feedback">Du måste välja en protein!</div>
 
         {/* Extras Checkboxes */}
         <fieldset className="col-md-12 mb-3">
@@ -114,6 +137,8 @@ function ComposeSalad(props) {
               <p>Inga tillbehör tillgängliga.</p>
             )}
           </div>
+        {/* Felmeddelande om minst två tillbehör inte valts */}
+        {!extrasValid && <div className="text-danger">Du måste välja minst två tillbehör!</div>}
         </fieldset>
 
         {/* Dressing Component */}
@@ -122,6 +147,7 @@ function ComposeSalad(props) {
           setDressing={setDressing}
           dressingList={dressingList}
         />
+        <div className="invalid-feedback">Du måste välja en dressing!</div>
         <button className="btn btn-primary" onClick={handleSubmit} >Lägg till sallad</button>
 
       </div>

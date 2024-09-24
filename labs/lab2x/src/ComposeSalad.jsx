@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Importera Bootstrap
 import FoundationSelector from './FoundationSelector';
 import ProteinSelector from './ProteinSelector';
@@ -12,10 +12,17 @@ function ComposeSalad(props) {
 
 
   // Foundation, Protein, and Dressing Lists
+  /*
   const foundationList = Object.keys(props.inventory).filter(name => props.inventory[name].foundation);
   const proteinList = Object.keys(props.inventory).filter(name => props.inventory[name].protein);
   const dressingList = Object.keys(props.inventory).filter(name => props.inventory[name].dressing);
   const extrasList  = Object.keys(props.inventory).filter(name => props.inventory[name].extra);
+*/
+
+  const foundationList = useMemo(() => Object.keys(props.inventory).filter(name => props.inventory[name]['foundation']),[props.inventory]);
+  const proteinList = useMemo(() => Object.keys(props.inventory).filter(name => props.inventory[name]['protein']),[props.inventory]);
+  const dressingList = useMemo(() => Object.keys(props.inventory).filter(name => props.inventory[name]['dressing']),[props.inventory]);
+  const extrasList = useMemo(() => Object.keys(props.inventory).filter(name => props.inventory[name]['extra']),[props.inventory]);
 
 
   // State for each salad component
@@ -26,6 +33,7 @@ function ComposeSalad(props) {
     Fetaost: true
   });
   const [dressing, setDressing] = useState(dressingList[0] || '');
+  const isExtraAmpuntValid = useMemo(() => Object.keys(extras).filter(checkedExtra => extras[checkedExtra]).length >= 2, [extras]);
 
    // Handle extra checkbox changes
    const handleExtraChange = (e) => {
@@ -39,11 +47,12 @@ function ComposeSalad(props) {
   const handleSubmit = () =>{
     event.preventDefault(); // Prevent default form submission
 
-    if (!foundation || !protein || Object.values(extras).filter(Boolean).length < 2 || !dressing) {
-      alert("Du måste välja en bas, ett protein, minst två tillbehör och en dressing!");
+    
+    if (!isExtraAmpuntValid ) {
+      alert("Du måste välja minst två tillbehör!");
       return;
     }
-
+      
     // Skapa en ny Salad-instans
        const salad = new Salad();
        salad.add(foundation, props.inventory[foundation]);

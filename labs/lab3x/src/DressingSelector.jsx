@@ -10,7 +10,10 @@ function DressingSelector({ dressing, setDressing, dressingList }) {
         id={id}
         value={dressing}
         onChange={(e) => setDressing(e.target.value)}
-        className="form-select" >
+        className="form-select" 
+        required
+        >
+        <option value="">Gor ditt val</option>
         {dressingList.map((dressingOption) => (
           <option key={dressingOption} value={dressingOption}>
             {dressingOption}

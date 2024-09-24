@@ -11,7 +11,9 @@ function FoundationSelector({ foundation, setFoundation, foundationList }) {
         value={foundation}
         onChange={(e) => setFoundation(e.target.value)}
         className="form-select"
+        required
       >
+        <option value="">Gor ditt val</option>
         {foundationList.map((foundationOption) => (
           <option key={foundationOption} value={foundationOption}>
             {foundationOption}

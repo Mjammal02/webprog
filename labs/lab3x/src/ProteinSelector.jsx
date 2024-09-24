@@ -10,7 +10,10 @@ function ProteinSelector({ protein, setProtein, proteinList }) {
         id={id}
         value={protein}
         onChange={(e) => setProtein(e.target.value)}
-        className="form-select">
+        className="form-select"
+        required
+        >
+        <option value="">Gor ditt val</option>
         {proteinList.map((proteinOption) => (
           <option key={proteinOption} value={proteinOption}>
             {proteinOption}

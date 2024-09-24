@@ -25,7 +25,7 @@ function ViewOrder({ shoppingCart }) {
                                 <span>
                                     {Object.keys(salad.selectedIngredients).map((ingredient) => (
                                         <span key={salad.uuid + '-' + ingredient}>
-                                            {ingredient} 
+                                            {ingredient+", "} 
                                         </span>
                                     ))}
                                 </span>

@@ -10,7 +10,6 @@ import { useId } from 'react';
 function ComposeSalad(props) {
   const id = useId();
 
-
   // Foundation, Protein, and Dressing Lists
   const foundationList = Object.keys(props.inventory).filter(name => props.inventory[name].foundation);
   const proteinList = Object.keys(props.inventory).filter(name => props.inventory[name].protein);

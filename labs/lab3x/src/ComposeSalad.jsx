@@ -17,7 +17,6 @@ function ComposeSalad(props) {
   const dressingList = Object.keys(props.inventory).filter(name => props.inventory[name].dressing);
   const extrasList  = Object.keys(props.inventory).filter(name => props.inventory[name].extra);
 
-
   // State for each salad component
   const [foundation, setFoundation] = useState('');
   const [protein, setProtein] = useState('');
@@ -28,8 +27,6 @@ function ComposeSalad(props) {
   const [dressing, setDressing] = useState('');
   const [touched, setTouched] = useState(false); 
   const [extrasValid, setExtrasValid] = useState(true); 
-
-
 
    // Handle extra checkbox changes
    const handleExtraChange = (e) => {
@@ -45,6 +42,8 @@ function ComposeSalad(props) {
   const handleSubmit = (event) => {
     event.preventDefault(); // Förhindra standard formulärsubmission
     setTouched(true); // Aktivera validering
+
+
 
        // Kolla om minst två tillbehör är valda
        if (Object.values(extras).filter(Boolean).length < 2) {
@@ -88,7 +87,7 @@ function ComposeSalad(props) {
         Fetaost: false
     });
     setTouched(false);
-   // setErrorMessage('');
+    setErrorMessage('');
 }
 
 
@@ -127,6 +126,7 @@ function ComposeSalad(props) {
                     checked={extras[extra] || false}
                     onChange={handleExtraChange}
                     className="form-check-input"
+                    required
                   />
                   <label htmlFor={`${id}-${extra}`}  className="form-check-label">
                     {extra}

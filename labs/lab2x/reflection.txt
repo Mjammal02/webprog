@@ -1,0 +1,33 @@
+1.
+If the render function depends on data that changes over time (outside of props and state), 
+the component will not automatically re-render when that data changes.
+
+2.
+Ja det går med hjälp av useMemo
+
+3.No
+The reason is that when the user submits the form, the selected foundation value needs to be accessible
+ at a higher level where the form submission logic is handled.
+If you move the state to the Select component, the form component won’t have access to that state,
+ potentially causing issues during submission, as it will not know what value the user selected.
+
+ 4.
+ React re-renders a component and updates the DOM when there is a change in the component's state or props. Specifically:
+
+-State change: When the component’s internal state (using useState or this.setState) changes, React triggers a re-render.
+-Props change: If the parent component passes new props to a child component, React will re-render the child to reflect 
+the updated props.
+
+5. Reacts Dom and html is seperat
+You have to implement the logic for hmtl throught state by eventhandlers
+
+6.
+In class components, this in event handlers refers to the class instance (the component itself),
+but it needs to be manually bound or defined using arrow functions.
+
+In function components, this is not used at all; event handlers simply rely on closures and hooks.
+
+
+7.
+The spread operator ({...sourceObject}) only copies the own enumerable properties of the sourceObject. 
+The spread operator creates a shallow copy of the object's own properties but does not copy the prototype chain

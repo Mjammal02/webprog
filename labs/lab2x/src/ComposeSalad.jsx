@@ -43,6 +43,18 @@ function ComposeSalad(props) {
       [name]: checked
     }));
   };
+    // Handle foundation change
+    const handleFoundation = (event) => {
+      setFoundation(event.target.value);
+    };
+      // Handle foundation change
+  const handleProtein = (event) => {
+    setFoundation(event.target.value);
+  };
+    // Handle foundation change
+    const handleDressnig = (event) => {
+      setFoundation(event.target.value);
+    };
 
   const handleSubmit = () =>{
     event.preventDefault(); // Prevent default form submission
@@ -88,14 +100,14 @@ function ComposeSalad(props) {
         {/* Foundation Component */}
         <FoundationSelector
           foundation={foundation}
-          setFoundation={setFoundation}
+          setFoundation={handleFoundation}
           foundationList={foundationList}
         />
 
         {/* Protein Select */}
        <ProteinSelector
           protein={protein}
-          setProtein={setProtein}
+          setProtein={handleProtein}
           proteinList={proteinList}
         />
 
@@ -128,7 +140,7 @@ function ComposeSalad(props) {
         {/* Dressing Component */}
         <DressingSelector
           dressing={dressing}
-          setDressing={setDressing}
+          setDressing={handleDressnig}
           dressingList={dressingList}
         />
         <button className="btn btn-primary" onClick={handleSubmit} >Lägg till sallad</button>

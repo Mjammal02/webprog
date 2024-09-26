@@ -1,5 +1,7 @@
 import { useState, useMemo } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Importera Bootstrap
+import { useOutletContext } from 'react-router-dom';
+
+import 'bootstrap/dist/css/bootstrap.min.css'; 
 import FoundationSelector from './FoundationSelector';
 import ProteinSelector from './ProteinSelector';
 import DressingSelector from './DressingSelector';
@@ -7,14 +9,16 @@ import Salad from './Salad.mjs';
 import { useId } from 'react';
 
 
-function ComposeSalad(props) {
+function ComposeSalad() {
   const id = useId();
+  const { inventory, addSaladToOrder } = useOutletContext();
+ 
 
   // Foundation, Protein, and Dressing Lists
-  const foundationList = Object.keys(props.inventory).filter(name => props.inventory[name].foundation);
-  const proteinList = Object.keys(props.inventory).filter(name => props.inventory[name].protein);
-  const dressingList = Object.keys(props.inventory).filter(name => props.inventory[name].dressing);
-  const extrasList  = Object.keys(props.inventory).filter(name => props.inventory[name].extra);
+  const foundationList = Object.keys(inventory).filter(name => inventory[name].foundation);
+  const proteinList = Object.keys(inventory).filter(name => inventory[name].protein);
+  const dressingList = Object.keys(inventory).filter(name => inventory[name].dressing);
+  const extrasList  = Object.keys(inventory).filter(name => inventory[name].extra);
 
   // State for each salad component
   const [foundation, setFoundation] = useState('');
@@ -87,20 +91,20 @@ function ComposeSalad(props) {
        }*/
       // Skapa en ny Salad-instans
        const salad = new Salad();
-       salad.add(foundation, props.inventory[foundation]);
-       salad.add(protein, props.inventory[protein]);
-       salad.add(dressing, props.inventory[dressing]);
+       salad.add(foundation, inventory[foundation]);
+       salad.add(protein, inventory[protein]);
+       salad.add(dressing, inventory[dressing]);
  
      //Lägg till tillbehör
       Object.keys(extras).forEach(extra => {
         if (extras[extra]) {
-          salad.add(extra, props.inventory[extra]);
+          salad.add(extra, inventory[extra]);
         }
       });
 
     console.log("Sallad skapad:", salad);
     // Here you would call a function passed via props to update the shopping basket state in App
-    props.addSaladToOrder(salad);
+    addSaladToOrder(salad);
     clearForm();
     setTouched(false);
     setExtrasValid(true)

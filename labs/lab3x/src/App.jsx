@@ -1,15 +1,19 @@
+import { Outlet } from 'react-router-dom';
 import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
 import inventory from './inventory.mjs';
 import ComposeSalad from './ComposeSalad';
 import ViewOrder from './ViewOrder'; 
 
+import Navbar from './Navbar'; 
+
+export default App;
 
 
 function App() {
   let extras = Object.keys(inventory).filter(name => inventory[name].extra);
 
-  const [salads, setSalads] = useState([]);
+  const [shoppingCart, setSalads] = useState([]);
 
   const addSaladToOrder = (newSalad) => {
     setSalads(prevSalads => [...prevSalads, newSalad]);
@@ -17,11 +21,12 @@ function App() {
 
   return (
     <div className="container py-4">
+      
+      <Navbar />
       <header className="pb-3 mb-4 border-bottom">
         <span className="fs-4">Mini egen salladsbar</span>
       </header>
-      <ViewOrder shoppingCart={salads} />
-      <ComposeSalad inventory={inventory} addSaladToOrder={addSaladToOrder}></ComposeSalad>      
+      <Outlet context={{ inventory, addSaladToOrder, shoppingCart }} />    
       <footer className="pt-3 mt-4 text-muted border-top">
         EDAF90 - webprogrammering
       </footer>
@@ -41,4 +46,3 @@ function App() {
 </div>
  */
 
-export default App;

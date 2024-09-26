@@ -20,6 +20,7 @@ function FoundationSelector({ foundation, setFoundation, foundationList }) {
           </option>
         ))}
       </select>
+      <div className="invalid-feedback">Du måste välja en bas!</div>
     </fieldset>
   );
 }

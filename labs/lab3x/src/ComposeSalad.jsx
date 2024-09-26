@@ -26,6 +26,16 @@ function ComposeSalad(props) {
   const [dressing, setDressing] = useState('');
   const [touched, setTouched] = useState(false); 
   const [extrasValid, setExtrasValid] = useState(true); 
+  const clearForm = () => {
+    // Clear the form after submission
+    setFoundation('');
+    setProtein('');
+    setDressing('');
+    setExtras({
+        Bacon: false, 
+        Fetaost: false
+    });
+};
 
    // Handle extra checkbox changes
    const handleExtraChange = (e) => {
@@ -51,56 +61,43 @@ function ComposeSalad(props) {
 
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSubmit = (event) => {
-    event.preventDefault(); // Förhindra standard formulärsubmission
-    setTouched(true); // Aktivera validering
+  const handleSubmit = (event) =>{
+    event.preventDefault(); // Prevent default form submission
+    setTouched(true)
 
-
-
-       // Kolla om minst två tillbehör är valda
-       if (Object.values(extras).filter(Boolean).length < 2) {
-        setErrorMessage("Du måste välja minst två tillbehör!");
-        setExtrasValid(false);
-        return;
-      } else {
-        setExtrasValid(true); // Om giltigt, sätt flaggan till true
-        setErrorMessage(''); // Återställ felmeddelande om giltiga tillbehör
-      }
-
-    const salad = new Salad();
-    const foundationItem = props.inventory[foundation];
-    const proteinItem = props.inventory[protein];
-    const dressingItem = props.inventory[dressing];
-
-    if (!foundationItem || !proteinItem || !dressingItem) {
-        setErrorMessage("Ett eller flera valda ingredienser är ogiltiga.");
-        return;
+    /*
+    if(!event.target.checkValidity()){ 
+      
+      return 
     }
+    */
+       // Validate form inputs
+       const extrasCount = Object.values(extras).filter(v => v).length;
 
-    salad.add(foundation, foundationItem);
-    salad.add(protein, proteinItem);
-    salad.add(dressing, dressingItem);
-
-    Object.keys(extras).forEach(extra => {
-        if (extras[extra] && props.inventory[extra]) {
-            salad.add(extra, props.inventory[extra]);
+       if (!foundation || !protein || !dressing || extrasCount < 2) {
+         setErrorMessage('Du måste välja en bas, ett protein, en dressing och minst två tillbehör!');
+         return;
+       }
+      // Skapa en ny Salad-instans
+       const salad = new Salad();
+       salad.add(foundation, props.inventory[foundation]);
+       salad.add(protein, props.inventory[protein]);
+       salad.add(dressing, props.inventory[dressing]);
+ 
+     //Lägg till tillbehör
+      Object.keys(extras).forEach(extra => {
+        if (extras[extra]) {
+          salad.add(extra, props.inventory[extra]);
         }
-    });
+      });
 
     console.log("Sallad skapad:", salad);
+    // Here you would call a function passed via props to update the shopping basket state in App
     props.addSaladToOrder(salad);
-
-    // Återställ formuläret
-    setFoundation('');
-    setProtein('');
-    setDressing('');
-    setExtras({
-        Bacon: false, 
-        Fetaost: false
-    });
+    clearForm();
     setTouched(false);
-    setErrorMessage('');
-}
+    
+  }
 
 
   return (
@@ -114,7 +111,6 @@ function ComposeSalad(props) {
           setFoundation={handleFoundation}
           foundationList={foundationList}
         />
-        <div className="invalid-feedback">Du måste välja en bas!</div>
 
         {/* Protein Select */}
        <ProteinSelector
@@ -122,7 +118,6 @@ function ComposeSalad(props) {
           setProtein={handleProtein}
           proteinList={proteinList}
         />
-        <div className="invalid-feedback">Du måste välja en protein!</div>
 
         {/* Extras Checkboxes */}
         <fieldset className="col-md-12 mb-3">
@@ -159,7 +154,6 @@ function ComposeSalad(props) {
           setDressing={handleDressnig}
           dressingList={dressingList}
         />
-        <div className="invalid-feedback">Du måste välja en dressing!</div>
         <button className="btn btn-primary" onClick={handleSubmit} >Lägg till sallad</button>
 
       </div>

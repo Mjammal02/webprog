@@ -20,6 +20,7 @@ function ProteinSelector({ protein, setProtein, proteinList }) {
           </option>
         ))}
       </select>
+      <div className="invalid-feedback">Du måste välja en protein!</div>
     </fieldset>
   );
 }

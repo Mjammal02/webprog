@@ -42,11 +42,11 @@ function ComposeSalad(props) {
       };
         // Handle protein change
     const handleProtein = (event) => {
-      setFoundation(event.target.value);
+      setProtein(event.target.value);
     };
       // Handle dressing change
       const handleDressnig = (event) => {
-        setFoundation(event.target.value);
+        setDressing(event.target.value);
       };
 
   const [errorMessage, setErrorMessage] = useState('');

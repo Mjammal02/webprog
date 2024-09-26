@@ -65,19 +65,20 @@ function ComposeSalad(props) {
     event.preventDefault(); // Prevent default form submission
     setTouched(true)
 
-    /*
+    
     if(!event.target.checkValidity()){ 
       
       return 
     }
-    */
+    
        // Validate form inputs
        const extrasCount = Object.values(extras).filter(v => v).length;
 
+       /*
        if (!foundation || !protein || !dressing || extrasCount < 2) {
-         setErrorMessage('Du måste välja en bas, ett protein, en dressing och minst två tillbehör!');
+        setExtrasValid(false);
          return;
-       }
+       }*/
       // Skapa en ny Salad-instans
        const salad = new Salad();
        salad.add(foundation, props.inventory[foundation]);
@@ -96,6 +97,7 @@ function ComposeSalad(props) {
     props.addSaladToOrder(salad);
     clearForm();
     setTouched(false);
+    setExtrasValid(true); 
     
   }
 
@@ -120,7 +122,7 @@ function ComposeSalad(props) {
         />
 
         {/* Extras Checkboxes */}
-        <fieldset className="col-md-12 mb-3">
+        <fieldset className={`col-md-12 mb-3 ${extrasValid ? '' : 'is-invalid'}`}>
         <legend className="form-label">Välj Tillbehör</legend>
           <div className="row">
             {extrasList.length > 0 ? (
@@ -145,7 +147,7 @@ function ComposeSalad(props) {
             )}
           </div>
         {/* Felmeddelande om minst två tillbehör inte valts */}
-        {!extrasValid && <div className="text-danger">Du måste välja minst två tillbehör!</div>}
+        {!extrasValid && <div className="invalid-feedback">Du måste minst välja två tillbehör!</div>}
         </fieldset>
 
         {/* Dressing Component */}
@@ -154,7 +156,7 @@ function ComposeSalad(props) {
           setDressing={handleDressnig}
           dressingList={dressingList}
         />
-        <button className="btn btn-primary" onClick={handleSubmit} >Lägg till sallad</button>
+        <button className="btn btn-primary"  >Lägg till sallad</button>
 
       </div>
     </form>

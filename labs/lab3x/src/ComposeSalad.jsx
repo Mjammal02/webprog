@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Importera Bootstrap
 import FoundationSelector from './FoundationSelector';
 import ProteinSelector from './ProteinSelector';
@@ -24,6 +24,8 @@ function ComposeSalad(props) {
     Fetaost: true
   });
   const [dressing, setDressing] = useState('');
+  const isExtraAmpuntValid = useMemo(() => Object.keys(extras).filter(checkedExtra => extras[checkedExtra]).length >= 2, [extras]);
+
   const [touched, setTouched] = useState(false); 
   const [extrasValid, setExtrasValid] = useState(true); 
   const clearForm = () => {
@@ -44,6 +46,7 @@ function ComposeSalad(props) {
       ...prevExtras,
       [name]: checked
     }));
+
   };
 
       // Handle foundation change
@@ -65,11 +68,14 @@ function ComposeSalad(props) {
     event.preventDefault(); // Prevent default form submission
     setTouched(true)
 
-    
-    if(!event.target.checkValidity()){ 
-      
+    if( (!isExtraAmpuntValid && event.target.checkValidity()) || (!isExtraAmpuntValid && !event.target.checkValidity())){
+      setExtrasValid(false);
+      return}
+    else if((!event.target.checkValidity()) || (!event.target.checkValidity() && isExtraAmpuntValid) ){ 
+      setExtrasValid(true);
       return 
     }
+    
     
        // Validate form inputs
        const extrasCount = Object.values(extras).filter(v => v).length;
@@ -97,7 +103,7 @@ function ComposeSalad(props) {
     props.addSaladToOrder(salad);
     clearForm();
     setTouched(false);
-    setExtrasValid(true); 
+    setExtrasValid(true)
     
   }
 
@@ -135,7 +141,6 @@ function ComposeSalad(props) {
                     checked={extras[extra] || false}
                     onChange={handleExtraChange}
                     className="form-check-input"
-                    required
                   />
                   <label htmlFor={`${id}-${extra}`}  className="form-check-label">
                     {extra}
@@ -147,8 +152,9 @@ function ComposeSalad(props) {
             )}
           </div>
         {/* Felmeddelande om minst två tillbehör inte valts */}
-        {!extrasValid && <div className="invalid-feedback">Du måste minst välja två tillbehör!</div>}
         </fieldset>
+        {!extrasValid && <div className="invalid-feedback">Du måste minst välja två tillbehör!</div>}
+
 
         {/* Dressing Component */}
         <DressingSelector

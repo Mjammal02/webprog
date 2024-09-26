@@ -9,7 +9,7 @@ function DressingSelector({ dressing, setDressing, dressingList }) {
       <select
         id={id}
         value={dressing}
-        onChange={(e) => setDressing(e.target.value)}
+        onChange={setDressing}
         className="form-select" >
         {dressingList.map((dressingOption) => (
           <option key={dressingOption} value={dressingOption}>

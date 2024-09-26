@@ -9,7 +9,7 @@ function FoundationSelector({ foundation, setFoundation, foundationList }) {
       <select
         id={id}
         value={foundation}
-        onChange={(e) => setFoundation(e.target.value)}
+        onChange={setFoundation}
         className="form-select"
         required
       >

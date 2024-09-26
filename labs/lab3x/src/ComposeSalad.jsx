@@ -36,6 +36,19 @@ function ComposeSalad(props) {
     }));
   };
 
+      // Handle foundation change
+      const handleFoundation = (event) => {
+        setFoundation(event.target.value);
+      };
+        // Handle protein change
+    const handleProtein = (event) => {
+      setFoundation(event.target.value);
+    };
+      // Handle dressing change
+      const handleDressnig = (event) => {
+        setFoundation(event.target.value);
+      };
+
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = (event) => {
@@ -98,7 +111,7 @@ function ComposeSalad(props) {
         {/* Foundation Component */}
         <FoundationSelector
           foundation={foundation}
-          setFoundation={setFoundation}
+          setFoundation={handleFoundation}
           foundationList={foundationList}
         />
         <div className="invalid-feedback">Du måste välja en bas!</div>
@@ -106,7 +119,7 @@ function ComposeSalad(props) {
         {/* Protein Select */}
        <ProteinSelector
           protein={protein}
-          setProtein={setProtein}
+          setProtein={handleProtein}
           proteinList={proteinList}
         />
         <div className="invalid-feedback">Du måste välja en protein!</div>
@@ -143,7 +156,7 @@ function ComposeSalad(props) {
         {/* Dressing Component */}
         <DressingSelector
           dressing={dressing}
-          setDressing={setDressing}
+          setDressing={handleDressnig}
           dressingList={dressingList}
         />
         <div className="invalid-feedback">Du måste välja en dressing!</div>

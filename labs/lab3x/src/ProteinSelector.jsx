@@ -9,7 +9,7 @@ function ProteinSelector({ protein, setProtein, proteinList }) {
       <select
         id={id}
         value={protein}
-        onChange={(e) => setProtein(e.target.value)}
+        onChange={setProtein}
         className="form-select"
         required
         >

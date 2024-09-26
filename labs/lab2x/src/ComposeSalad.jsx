@@ -47,11 +47,11 @@ function ComposeSalad(props) {
     const handleFoundation = (event) => {
       setFoundation(event.target.value);
     };
-      // Handle foundation change
+      // Handle protein change
   const handleProtein = (event) => {
     setFoundation(event.target.value);
   };
-    // Handle foundation change
+    // Handle dressing change
     const handleDressnig = (event) => {
       setFoundation(event.target.value);
     };

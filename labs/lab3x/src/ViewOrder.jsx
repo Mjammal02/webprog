@@ -1,11 +1,14 @@
 import React from 'react';
 import Salad from './Salad.mjs';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext,Outlet } from 'react-router-dom';
+
 
 
 function ViewOrder() {
     const { shoppingCart } = useOutletContext();
-    
+    //const allaSalader = Salad.parse(shoppingCart);
+    console.log(shoppingCart);
+
     if (!shoppingCart || shoppingCart.length === 0) {
         return (
             <div className="container col-12">
@@ -39,6 +42,7 @@ function ViewOrder() {
                     })}
                 </ul>
             </div>
+            <Outlet context={{shoppingCart}}></Outlet>
         </div>
     );
 }

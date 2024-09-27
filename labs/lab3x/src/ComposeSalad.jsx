@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext, useNavigate } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import FoundationSelector from './FoundationSelector';
@@ -7,9 +7,11 @@ import ProteinSelector from './ProteinSelector';
 import DressingSelector from './DressingSelector';
 import Salad from './Salad.mjs';
 import { useId } from 'react';
+import './composedSalad.css'
 
 
 function ComposeSalad() {
+  const navigate = useNavigate();
   const id = useId();
   const { inventory, addSaladToOrder } = useOutletContext();
  
@@ -50,6 +52,9 @@ function ComposeSalad() {
       ...prevExtras,
       [name]: checked
     }));
+
+    
+
 
   };
 
@@ -106,8 +111,10 @@ function ComposeSalad() {
     // Here you would call a function passed via props to update the shopping basket state in App
     addSaladToOrder(salad);
     clearForm();
-    setTouched(false);
     setExtrasValid(true)
+    setTouched(false);
+  
+    navigate(`/view-order/confirm/${salad.uuid}`);
     
   }
 
@@ -132,7 +139,7 @@ function ComposeSalad() {
         />
 
         {/* Extras Checkboxes */}
-        <fieldset className={`col-md-12 mb-3 ${extrasValid ? '' : 'is-invalid'}`}>
+        <fieldset className={`col-md-12 mb-3 ${touched && !isExtraAmpuntValid ? 'is-invalid' : ''}`}>
         <legend className="form-label">Välj Tillbehör</legend>
           <div className="row">
             {extrasList.length > 0 ? (
@@ -157,7 +164,7 @@ function ComposeSalad() {
           </div>
         {/* Felmeddelande om minst två tillbehör inte valts */}
         </fieldset>
-        {!extrasValid && <div className="invalid-feedback">Du måste minst välja två tillbehör!</div>}
+        {touched && !isExtraAmpuntValid && <div className="invalid-feedback">Du måste minst välja två tillbehör!</div>}
 
 
         {/* Dressing Component */}

@@ -43,7 +43,7 @@ class Salad {
         return parsed.map(item => {
           const newSalad = new Salad();
           newSalad.selectedIngredients = { ...item.selectedIngredients };
-          newSalad.uuid = parsed.uuid;
+          newSalad.uuid = item.uuid;
           return newSalad;
         });
     }else{

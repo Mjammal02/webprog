@@ -4,19 +4,28 @@ import 'bootstrap/dist/css/bootstrap.css'
 import inventory from './inventory.mjs';
 import ComposeSalad from './ComposeSalad';
 import ViewOrder from './ViewOrder'; 
-
+import Salad from './Salad.mjs';
 import Navbar from './Navbar'; 
 
 export default App;
 
 
 function App() {
-  let extras = Object.keys(inventory).filter(name => inventory[name].extra);
 
-  const [shoppingCart, setSalads] = useState([]);
+  //localStorage.clear();
+  const [shoppingCart, setSalads] = useState(()=> {
+    const saveSalads = localStorage.getItem("savedSalads");
+    return saveSalads ? Salad.parse(saveSalads) : [];
 
-  const addSaladToOrder = (newSalad) => {
-    setSalads(prevSalads => [...prevSalads, newSalad]);
+  });
+
+  function addSaladToOrder(newSalad){
+    
+    setSalads(prevSalads=> {
+      const updateSalad =[...prevSalads, newSalad];
+      localStorage.setItem("savedSalads", JSON.stringify(updateSalad));
+      return updateSalad;
+    });
   };
 
   return (

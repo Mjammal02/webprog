@@ -1,7 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from './App';
 import ComposeSalad from "./ComposeSalad";
-import ViewOrder from "./ViewOrder"; // Import ViewOrder component
+import ViewOrder from "./ViewOrder"; 
+import ConfirmOrder from './ConfirmOrder';
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,12 @@ const router = createBrowserRouter([
       {
         path: "view-order", // Define path for view-order
         Component: ViewOrder, // Render ViewOrder component
+        children: [
+          {
+            path: "confirm/:id", // Add confirmation route as a child of view-order
+            Component: ConfirmOrder, // Component for showing confirmation
+          }
+        ],
       },
       {
         index: true,

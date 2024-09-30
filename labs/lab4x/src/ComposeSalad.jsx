@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { useOutletContext, useNavigate } from 'react-router-dom';
+import { useOutletContext, useNavigate, useLoaderData } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import FoundationSelector from './FoundationSelector';
@@ -13,7 +13,8 @@ import './composedSalad.css'
 function ComposeSalad() {
   const navigate = useNavigate();
   const id = useId();
-  const { inventory, addSaladToOrder } = useOutletContext();
+  const { addSaladToOrder } = useOutletContext();
+  const inventory = useLoaderData();
  
 
   // Foundation, Protein, and Dressing Lists

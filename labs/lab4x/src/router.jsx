@@ -3,6 +3,7 @@ import App from './App';
 import ComposeSalad from "./ComposeSalad";
 import ViewOrder from "./ViewOrder"; 
 import ConfirmOrder from './ConfirmOrder';
+import { inventoryLoader } from './loaders';
 
 const router = createBrowserRouter([
   {
@@ -10,6 +11,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "compose-salad",
+        loader: inventoryLoader,
         Component: ComposeSalad , // Component for /compose-salad
       },
       {

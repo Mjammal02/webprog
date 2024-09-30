@@ -18,10 +18,10 @@ function ComposeSalad() {
  
 
   // Foundation, Protein, and Dressing Lists
-  const foundationList = Object.keys(inventory).filter(name => inventory[name].foundation);
-  const proteinList = Object.keys(inventory).filter(name => inventory[name].protein);
-  const dressingList = Object.keys(inventory).filter(name => inventory[name].dressing);
-  const extrasList  = Object.keys(inventory).filter(name => inventory[name].extra);
+  const foundationList = useMemo(() => Object.keys(inventory).filter(name => inventory[name]['foundation']),[inventory]);
+  const proteinList = useMemo(() => Object.keys(inventory).filter(name => inventory[name]['protein']),[inventory]);
+  const dressingList = useMemo(() => Object.keys(inventory).filter(name => inventory[name]['dressing']),[inventory]);
+  const extrasList = useMemo(() => Object.keys(inventory).filter(name => inventory[name]['extra']),[inventory]);
 
   // State for each salad component
   const [foundation, setFoundation] = useState('');
@@ -30,9 +30,8 @@ function ComposeSalad() {
     Bacon: true, 
     Fetaost: true
   });
-  const [dressing, setDressing] = useState('');
-  const isExtraAmpuntValid = useMemo(() => Object.keys(extras).filter(checkedExtra => extras[checkedExtra]).length >= 2, [extras]);
 
+  const [dressing, setDressing] = useState('');
   const [touched, setTouched] = useState(false); 
   const [extrasValid, setExtrasValid] = useState(true); 
   const clearForm = () => {
@@ -49,15 +48,18 @@ function ComposeSalad() {
    // Handle extra checkbox changes
    const handleExtraChange = (e) => {
     const { name, checked } = e.target;
-    setExtras(prevExtras => ({
-      ...prevExtras,
-      [name]: checked
-    }));
 
-    
-
-
-  };
+    // Uppdatera extras state
+    setExtras(prevExtras => {
+        const updatedExtras = {
+            ...prevExtras,
+            [name]: checked
+        };
+        // Sätt extrasValid baserat på antalet markerade alternativ
+        setExtrasValid(Object.keys(updatedExtras).filter(extra => updatedExtras[extra]).length > 1); // Sätt till false om mer än 2 är markerade
+        return updatedExtras; // Returnera det uppdaterade objektet
+    });
+};
 
       // Handle foundation change
       const handleFoundation = (event) => {
@@ -72,29 +74,15 @@ function ComposeSalad() {
         setDressing(event.target.value);
       };
 
-  const [errorMessage, setErrorMessage] = useState('');
-
   const handleSubmit = (event) =>{
     event.preventDefault(); // Prevent default form submission
-    setTouched(true)
 
-    if( (!isExtraAmpuntValid && event.target.checkValidity()) || (!isExtraAmpuntValid && !event.target.checkValidity())){
-      setExtrasValid(false);
-      return}
-    else if((!event.target.checkValidity()) || (!event.target.checkValidity() && isExtraAmpuntValid) ){ 
-      setExtrasValid(true);
-      return 
+    if (!isExtraAmpuntValid || !event.target.checkValidity()) {
+      setTouched(true)
+      return;
     }
+    setExtrasValid(true);
     
-    
-       // Validate form inputs
-       const extrasCount = Object.values(extras).filter(v => v).length;
-
-       /*
-       if (!foundation || !protein || !dressing || extrasCount < 2) {
-        setExtrasValid(false);
-         return;
-       }*/
       // Skapa en ny Salad-instans
        const salad = new Salad();
        salad.add(foundation, inventory[foundation]);
@@ -109,12 +97,10 @@ function ComposeSalad() {
       });
 
     console.log("Sallad skapad:", salad);
-    // Here you would call a function passed via props to update the shopping basket state in App
     addSaladToOrder(salad);
     clearForm();
     setExtrasValid(true)
     setTouched(false);
-  
     navigate(`/view-order/confirm/${salad.uuid}`);
     
   }
@@ -140,7 +126,7 @@ function ComposeSalad() {
         />
 
         {/* Extras Checkboxes */}
-        <fieldset className={`col-md-12 mb-3 ${touched && !isExtraAmpuntValid ? 'is-invalid' : ''}`}>
+        <fieldset className={`col-md-12 mb-3 ${touched && !extrasValid ? 'is-invalid' : ''}`}>
         <legend className="form-label">Välj Tillbehör</legend>
           <div className="row">
             {extrasList.length > 0 ? (
@@ -165,7 +151,7 @@ function ComposeSalad() {
           </div>
         {/* Felmeddelande om minst två tillbehör inte valts */}
         </fieldset>
-        {touched && !isExtraAmpuntValid && <div className="invalid-feedback">Du måste minst välja två tillbehör!</div>}
+        {touched && !extrasValid && <div className="invalid-feedback">Du måste minst välja två tillbehör!</div>}
 
 
         {/* Dressing Component */}

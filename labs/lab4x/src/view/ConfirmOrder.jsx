@@ -6,19 +6,13 @@ function ConfirmOrder() {
   const { id } = useParams(); // Extract the order ID from the URL
   const { shoppingCart } = useOutletContext();
 
-  function checkValidity(checkUuid){
-    let uuid=false;
-    shoppingCart.map(currentSalad=>{
-
-      if(currentSalad.uuid===checkUuid)
-        {
-          uuid=true;
-          return;
-        }
-    })
-
-    return uuid;
-  }
+  function checkValidity(checkUuid) {
+    // Använd find för att leta efter ett salad med det specifika uuid
+    const foundSalad = shoppingCart.find(currentSalad => currentSalad.uuid === checkUuid);
+    
+    // Returnera true om foundSalad finns, annars false
+    return foundSalad !== undefined;
+}
 
   return (
     <div>

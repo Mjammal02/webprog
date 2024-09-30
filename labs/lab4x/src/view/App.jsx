@@ -2,10 +2,10 @@ import { Outlet } from 'react-router-dom';
 import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
 //import inventory from './inventory.mjs';
-import ComposeSalad from './ComposeSalad';
-import ViewOrder from './ViewOrder'; 
-import Salad from './Salad.mjs';
-import Navbar from './Navbar'; 
+import ComposeSalad from '../view/ComposeSalad';
+import ViewOrder from '../view/ViewOrder'; 
+import Salad from '../model/Salad.mjs';
+import Navbar from '../view/Navbar'; 
 
 export default App;
 

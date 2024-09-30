@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import FoundationSelector from './FoundationSelector';
 import ProteinSelector from './ProteinSelector';
 import DressingSelector from './DressingSelector';
-import Salad from './Salad.mjs';
+import Salad from '../model/Salad.mjs';
 import { useId } from 'react';
 import './composedSalad.css'
 

@@ -1,9 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
-import App from './App';
-import ComposeSalad from "./ComposeSalad";
-import ViewOrder from "./ViewOrder"; 
-import ConfirmOrder from './ConfirmOrder';
-import { inventoryLoader } from './loaders';
+import App from '../view/App';
+import ComposeSalad from "../view/ComposeSalad";
+import ViewOrder from "../view/ViewOrder"; 
+import ConfirmOrder from '../view/ConfirmOrder';
+import { inventoryLoader } from '../model/loaders';
 
 const router = createBrowserRouter([
   {

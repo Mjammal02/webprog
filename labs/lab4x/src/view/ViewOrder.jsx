@@ -1,5 +1,5 @@
 import React from 'react';
-import Salad from './Salad.mjs';
+import Salad from '../model/Salad.mjs';
 import { useOutletContext,Outlet } from 'react-router-dom';
 
 

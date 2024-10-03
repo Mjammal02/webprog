@@ -77,7 +77,7 @@ function ComposeSalad() {
   const handleSubmit = (event) =>{
     event.preventDefault(); // Prevent default form submission
 
-    if (!isExtraAmpuntValid || !event.target.checkValidity()) {
+    if (!extrasValid || !event.target.checkValidity()) {
       setTouched(true)
       return;
     }

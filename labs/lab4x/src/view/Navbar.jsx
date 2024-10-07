@@ -16,7 +16,7 @@ export default function Navbar() {
           className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
           to="/compose-salad"
         >
-          Beställ sallad
+          Komponera en sallad 
         </NavLink>
       </li>
       <li className="nav-item">
@@ -24,7 +24,15 @@ export default function Navbar() {
           className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
           to="/view-order"
         >
-          Se beställning
+          Visa varukorg
+        </NavLink>
+      </li>
+      <li className="nav-item">
+        <NavLink
+          className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
+          to="/order-history"
+        >
+          Visa beställningar
         </NavLink>
       </li>
     </ul>

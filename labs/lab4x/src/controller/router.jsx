@@ -3,6 +3,7 @@ import App from '../view/App';
 import ComposeSalad from "../view/ComposeSalad";
 import ViewOrder from "../view/ViewOrder"; 
 import ConfirmOrder from '../view/ConfirmOrder';
+import OrderHistory from "../view/OrderHistory"; 
 import { inventoryLoader } from '../model/loaders';
 
 const router = createBrowserRouter([
@@ -24,6 +25,11 @@ const router = createBrowserRouter([
           }
         ],
       },
+      {
+        path: "order-history",
+        Component: OrderHistory , // Component for /compose-salad
+      }
+      ,
       {
         index: true,
         element: <p>Welcome to my own salad bar</p>, // Default element for /

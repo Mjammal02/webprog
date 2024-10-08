@@ -9,7 +9,7 @@ function DressingSelector({ dressing, setDressing, dressingList }) {
       <select
         id={id}
         value={dressing}
-        onChange={(e) => setDressing(e.target.value)}
+        onChange={setDressing}
         className="form-select" 
         required
         >
@@ -20,7 +20,11 @@ function DressingSelector({ dressing, setDressing, dressingList }) {
           </option>
         ))}
       </select>
+<<<<<<< HEAD
       <div className="invalid-feedback">Du måste välja en bas</div>
+=======
+      <div className="invalid-feedback">Du måste välja en dressing!</div>
+>>>>>>> db373be38762bbac5c48ddb6e45f50dec0ff10da
     </fieldset>
   );
 }

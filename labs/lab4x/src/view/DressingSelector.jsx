@@ -10,13 +10,17 @@ function DressingSelector({ dressing, setDressing, dressingList }) {
         id={id}
         value={dressing}
         onChange={setDressing}
-        className="form-select" >
+        className="form-select" 
+        required
+        >
+        <option value="">Gor ditt val</option>
         {dressingList.map((dressingOption) => (
           <option key={dressingOption} value={dressingOption}>
             {dressingOption}
           </option>
         ))}
       </select>
+      <div className="invalid-feedback">Du måste välja en dressing!</div>
     </fieldset>
   );
 }

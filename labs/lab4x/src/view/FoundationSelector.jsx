@@ -4,7 +4,6 @@ import { useId } from 'react';
 function FoundationSelector({ foundation, setFoundation, foundationList }) {
   const id = useId();
   return (
-    
     <fieldset className="col-md-12">
       <label htmlFor={id} className="form-label">Välj Bas</label>
       <select

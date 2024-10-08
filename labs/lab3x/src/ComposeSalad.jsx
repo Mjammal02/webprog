@@ -1,9 +1,11 @@
 import { useState, useMemo } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Importera Bootstrap
+import { useOutletContext, useNavigate, useLoaderData } from 'react-router-dom';
+
+import 'bootstrap/dist/css/bootstrap.min.css'; 
 import FoundationSelector from './FoundationSelector';
 import ProteinSelector from './ProteinSelector';
 import DressingSelector from './DressingSelector';
-import Salad from './Salad.mjs';
+import Salad from '../model/Salad.mjs';
 import { useId } from 'react';
 import './composedSalad.css'
 
@@ -11,20 +13,15 @@ import './composedSalad.css'
 function ComposeSalad() {
   const navigate = useNavigate();
   const id = useId();
-  const { inventory, addSaladToOrder } = useOutletContext();
+  const { addSaladToOrder } = useOutletContext();
+  const inventory = useLoaderData();
  
 
   // Foundation, Protein, and Dressing Lists
-  /*
-  const foundationList = Object.keys(props.inventory).filter(name => props.inventory[name].foundation);
-  const proteinList = Object.keys(props.inventory).filter(name => props.inventory[name].protein);
-  const dressingList = Object.keys(props.inventory).filter(name => props.inventory[name].dressing);
-  const extrasList  = Object.keys(props.inventory).filter(name => props.inventory[name].extra);
-*/
-  const foundationList = useMemo(() => Object.keys(props.inventory).filter(name => props.inventory[name]['foundation']),[props.inventory]);
-  const proteinList = useMemo(() => Object.keys(props.inventory).filter(name => props.inventory[name]['protein']),[props.inventory]);
-  const dressingList = useMemo(() => Object.keys(props.inventory).filter(name => props.inventory[name]['dressing']),[props.inventory]);
-  const extrasList = useMemo(() => Object.keys(props.inventory).filter(name => props.inventory[name]['extra']),[props.inventory]);
+  const foundationList = useMemo(() => Object.keys(inventory).filter(name => inventory[name]['foundation']),[inventory]);
+  const proteinList = useMemo(() => Object.keys(inventory).filter(name => inventory[name]['protein']),[inventory]);
+  const dressingList = useMemo(() => Object.keys(inventory).filter(name => inventory[name]['dressing']),[inventory]);
+  const extrasList = useMemo(() => Object.keys(inventory).filter(name => inventory[name]['extra']),[inventory]);
 
   // State for each salad component
   const [foundation, setFoundation] = useState('');
@@ -33,8 +30,8 @@ function ComposeSalad() {
     Bacon: true, 
     Fetaost: true
   });
+
   const [dressing, setDressing] = useState('');
-  const isExtraAmpuntValid = useMemo(() => Object.keys(extras).filter(checkedExtra => extras[checkedExtra]).length >= 2, [extras]);
   const [touched, setTouched] = useState(false); 
   const [extrasValid, setExtrasValid] = useState(true); 
   const clearForm = () => {
@@ -51,23 +48,19 @@ function ComposeSalad() {
    // Handle extra checkbox changes
    const handleExtraChange = (e) => {
     const { name, checked } = e.target;
-    setExtras(prevExtras => ({
-      ...prevExtras,
-      [name]: checked
-    }));
 
-    
+    // Uppdatera extras state
+    setExtras(prevExtras => {
+        const updatedExtras = {
+            ...prevExtras,
+            [name]: checked
+        };
+        // Sätt extrasValid baserat på antalet markerade alternativ
+        setExtrasValid(Object.keys(updatedExtras).filter(extra => updatedExtras[extra]).length > 1); // Sätt till false om mer än 2 är markerade
+        return updatedExtras; // Returnera det uppdaterade objektet
+    });
+};
 
-
-  };
-
-  function resetStateAfterSubmit(){
-    setFoundation('');
-    setProtein('');
-    setDressing('');
-    setExtras({});
-
-}
       // Handle foundation change
       const handleFoundation = (event) => {
         setFoundation(event.target.value);
@@ -81,29 +74,15 @@ function ComposeSalad() {
         setDressing(event.target.value);
       };
 
-  const [errorMessage, setErrorMessage] = useState('');
-
   const handleSubmit = (event) =>{
     event.preventDefault(); // Prevent default form submission
-    setTouched(true)
 
-    if( (!isExtraAmpuntValid && event.target.checkValidity()) || (!isExtraAmpuntValid && !event.target.checkValidity())){
-      setExtrasValid(false);
-      return}
-    else if((!event.target.checkValidity()) || (!event.target.checkValidity() && isExtraAmpuntValid) ){ 
-      setExtrasValid(true);
-      return 
+    if (!extrasValid || !event.target.checkValidity()) {
+      setTouched(true)
+      return;
     }
+    setExtrasValid(true);
     
-    
-       // Validate form inputs
-       const extrasCount = Object.values(extras).filter(v => v).length;
-
-       /*
-       if (!foundation || !protein || !dressing || extrasCount < 2) {
-        setExtrasValid(false);
-         return;
-       }*/
       // Skapa en ny Salad-instans
        const salad = new Salad();
        salad.add(foundation, inventory[foundation]);
@@ -118,69 +97,22 @@ function ComposeSalad() {
       });
 
     console.log("Sallad skapad:", salad);
-    // Here you would call a function passed via props to update the shopping basket state in App
     addSaladToOrder(salad);
     clearForm();
     setExtrasValid(true)
     setTouched(false);
-  
     navigate(`/view-order/confirm/${salad.uuid}`);
     
   }
 
-/*
-  const handleSubmit = (event) => {
-    event.preventDefault(); // Förhindra standardformulärsubmission
-    //setTouched(true); // Aktivera validering
-  
-    if (event.target.checkValidity() ) {
-      const foundationItem = props.inventory[foundation];
-      const proteinItem = props.inventory[protein];
-      const dressingItem = props.inventory[dressing];
-  
-      // Kontrollera att de valda ingredienserna är giltiga
-      /*
-      if (!foundationItem || !proteinItem || !dressingItem  || !isExtraAmpuntValid) {
-        return;
-      }
-        
-  
-      const salad = new Salad();
-      salad.add(foundation, foundationItem);
-      salad.add(protein, proteinItem);
-      salad.add(dressing, dressingItem);
-  
-      // Lägg till tillbehör
-      Object.keys(extras).forEach(extra => {
-        if (extras[extra] && props.inventory[extra]) {
-          salad.add(extra, props.inventory[extra]);
-        }
 
-              // Nu kan du logga salladen eller skicka den vidare
-      console.log("Sallad skapad:", salad);
-      props.addSaladToOrder(salad);
-        // Återställ formuläret
-        resetStateAfterSubmit()
-
-      });
-  
-
-      setTouched(false); // Återställ valideringsstatus
-    } else {
-      // Om formuläret inte är giltigt
-      setTouched(true);
-    }
-  };
-
-*/
   return (
-    <form onSubmit={handleSubmit} className={`container col-12 ${touched ? 'was-validated' : ''}`} noValidate>
+    <form onSubmit={handleSubmit} noValidate className={`container col-12 ${touched ? 'was-validated' : ''}`}>
       <div className="row h-200 p-5 bg-light border rounded-3">
         <h2>Välj innehållet i din sallad</h2>
         
         {/* Foundation Component */}
-
-        < FoundationSelector
+        <FoundationSelector
           foundation={foundation}
           setFoundation={handleFoundation}
           foundationList={foundationList}
@@ -194,7 +126,7 @@ function ComposeSalad() {
         />
 
         {/* Extras Checkboxes */}
-        <fieldset className={`col-md-12 mb-3 ${touched && !isExtraAmpuntValid ? 'is-invalid' : ''}`}>
+        <fieldset className={`col-md-12 mb-3 ${touched && !extrasValid ? 'is-invalid' : ''}`}>
         <legend className="form-label">Välj Tillbehör</legend>
           <div className="row">
             {extrasList.length > 0 ? (
@@ -219,7 +151,7 @@ function ComposeSalad() {
           </div>
         {/* Felmeddelande om minst två tillbehör inte valts */}
         </fieldset>
-        {touched && !isExtraAmpuntValid && <div className="invalid-feedback">Du måste minst välja två tillbehör!</div>}
+        {touched && !extrasValid && <div className="invalid-feedback">Du måste minst välja två tillbehör!</div>}
 
 
         {/* Dressing Component */}

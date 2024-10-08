@@ -14,8 +14,6 @@ function ViewOrder() {
         try {
             const orderData = shoppingCart.map((salad) => Object.keys(salad.selectedIngredients));
 
-            const numberOfSalads = shoppingCart.length;
-
             const response = await fetch('http://localhost:8080/orders/', {
                 method: 'POST',
                 headers: {

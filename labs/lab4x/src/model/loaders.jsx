@@ -28,6 +28,7 @@ async function fetchIngredientProperties(type, name) {
     return await safeFetchJson(`http://localhost:8080/${type}/${name}`);
 }
 
+
 async function fetchAllIngredients(type, ingredientList) {
     const ingredientPromises = ingredientList.map(ingredient => fetchIngredientProperties(type, ingredient));
     const ingredients = await Promise.all(ingredientPromises);
@@ -39,6 +40,8 @@ async function fetchAllIngredients(type, ingredientList) {
 
 export async function inventoryLoader() {
     const inventory = {};
+
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     // Fetch all foundations
     const foundations = await fetchFoundations();

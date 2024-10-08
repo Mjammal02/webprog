@@ -20,6 +20,7 @@ function DressingSelector({ dressing, setDressing, dressingList }) {
           </option>
         ))}
       </select>
+      <div className="invalid-feedback">Du måste välja en bas</div>
     </fieldset>
   );
 }

@@ -17,7 +17,7 @@ const OrderHistory = () => {
               <strong>Order ID:</strong> {confirmation.uuid} <br />
               <strong>Status:</strong> {confirmation.status} <br />
               <strong>Tid:</strong> {new Date(confirmation.timestamp).toLocaleString()} <br />
-              <strong>Antal sallader:</strong> {orderConfirmations.length}  <br />
+              <strong>Antal sallader:</strong> {confirmation.saladCount}  <br />
               <strong>Pris:</strong> {confirmation.price} kr <br />
               
             </li>

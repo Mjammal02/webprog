@@ -62,7 +62,7 @@ function App() {
       <header className="pb-3 mb-4 border-bottom">
         <span className="fs-4">Mini egen salladsbar</span>
       </header>
-      {navigation.state === 'loading' ? <BootstrapSpinner /> : <Outlet context={{ addSaladToOrder, shoppingCart, addOrderConfirmation, orderConfirmations, clearOrderHistory, clearShoppingCart}} /> }
+      {navigation.state === 'loading' ? <BootstrapSpinner /> : <Outlet context={{ addSaladToOrder, shoppingCart, addOrderConfirmation, orderConfirmations, clearOrderHistory, }} /> }
        <footer className="pt-3 mt-4 text-muted border-top">
         EDAF90 - webprogrammering
       </footer>
